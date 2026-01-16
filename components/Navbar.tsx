@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone, Zap } from 'lucide-react';
 import { NAV_ITEMS } from '../constants';
 import { SITE_SETTINGS } from '../data/siteContent';
 import { resolveImageUrl } from '../utils';
@@ -18,7 +18,6 @@ const Navbar: React.FC = () => {
 
   useEffect(() => setIsOpen(false), [location]);
 
-  // Prevent scrolling when mobile menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -30,20 +29,25 @@ const Navbar: React.FC = () => {
     };
   }, [isOpen]);
 
-  const logoUrl = resolveImageUrl('https://drive.google.com/file/d/1Logo_ID_Placeholder/view?usp=sharing');
+  // Point to assets/images/logo.png once you upload it
+  const logoUrl = resolveImageUrl('assets/images/logo.png');
 
   return (
     <nav className={`fixed w-full z-[100] transition-all duration-500 ${scrolled || isOpen ? 'bg-black border-b border-white/10 py-3' : 'bg-transparent py-6'}`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-3 group shrink-0 relative z-[110]">
-          <img 
-            src={logoUrl} 
-            alt="Positive Energy Dance Co. Logo" 
-            className="h-10 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-            }}
-          />
+          <div className="relative">
+            <Zap size={24} className="text-primary-400 absolute -top-1 -left-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <img 
+              src={logoUrl} 
+              alt="Positive Energy Logo" 
+              className="h-10 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
+              onError={(e) => {
+                // If logo missing, show a high-quality icon/placeholder instead of hiding
+                e.currentTarget.src = "https://img.icons8.com/ios-filled/100/d4af37/energy-pulsing.png";
+              }}
+            />
+          </div>
           <span className="text-base font-black tracking-tighter text-white uppercase leading-none">
             POSITIVE ENERGY <span className="text-primary-400 block sm:inline">DANCE CO.</span>
           </span>
