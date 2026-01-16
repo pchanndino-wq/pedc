@@ -9,8 +9,10 @@ export const resolveImageUrl = (url: string): string => {
   if (!url) return '';
 
   // 1. Handle Local Assets (Simple paths)
-  if (url.startsWith('assets/') || url.startsWith('./assets/')) {
-    return url;
+  // We trim leading slashes to ensure it stays relative to the index.html location
+  if (url.startsWith('assets/') || url.startsWith('./assets/') || url.startsWith('/assets/')) {
+    const cleanPath = url.replace(/^\.?\//, ''); 
+    return `./${cleanPath}`;
   }
   
   // 2. Handle Google Drive links
