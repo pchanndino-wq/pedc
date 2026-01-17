@@ -3,8 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  // Using './' ensures that if your site is at username.github.io/repo/, 
-  // the links point to ./assets/ not /assets/
+  // Using './' is essential for GitHub Pages if the project is in a subfolder (e.g. username.github.io/repo-name/)
   base: './', 
   build: {
     outDir: 'dist',
